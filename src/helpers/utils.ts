@@ -20,3 +20,10 @@ export function getType(item: any): string {
 export function isTypeOf(item: any, type: TypeName): boolean {
   return typesMap[type] === getType(item);
 }
+
+export function extend<T, U>(to: T, from: U): T & U {
+  for (const key in from) {
+    ; (to as T & U)[key] = from[key] as any
+  }
+  return to as T & U;
+}

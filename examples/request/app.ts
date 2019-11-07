@@ -1,26 +1,27 @@
 import axios from '../../src/index';
 
-axios({
-  method: 'get',
-  url: '/test/get',
-  params: {
-    a: 'test'
-  },
-  responseType: 'json'
-}).then((res) => {
-  console.log(res);
-});
+interface ResponseData<T = any> {
+  code: number
+  result: T
+  message: string
+}
 
-axios({
-  method: 'post',
-  url: '/test/post',
-  headers: {
-    'content-type': 'application/json',
-    'accept': 'application/json, text/plain, */*'
-  },
-  data: {
-    a: 'test'
+interface User {
+  name: string
+  age: number
+}
+
+function getUser<T>() {
+  return axios<ResponseData<T>>('/test/user')
+    .then(res => res.data)
+    .catch(err => console.error(err));
+}
+
+async function test() {
+  const user = await getUser<User>();
+  if (user) {
+    console.log(user.result)
   }
-}).then((res) => {
-  console.log(res);
-})
+}
+
+test();

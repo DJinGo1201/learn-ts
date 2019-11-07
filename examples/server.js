@@ -29,6 +29,30 @@ router.post('/test/post', function (req, res) {
   res.json(req.body);
 })
 
+router.options('/test/options', function (req, res) {
+  res.end();
+})
+
+router.delete('/test/delete', function (req, res) {
+  res.end();
+})
+
+router.head('/test/head', function (req, res) {
+  res.end();
+})
+
+router.post('/test/post', function (req, res) {
+  res.json(req.body);
+})
+
+router.put('/test/put', function (req, res) {
+  res.json(req.body);
+})
+
+router.patch('/test/patch', function (req, res) {
+  res.json(req.body);
+})
+
 router.get('/error/get', function (req, res) {
   res.status(500);
   res.end();
@@ -38,6 +62,17 @@ router.get('/error/timeout', function (req, res) {
   setTimeout(() => {
     res.json(req.query);
   }, 3000);
+})
+
+router.get('/test/user', function (req, res) {
+  res.json({
+    code: 0,
+    message: 'ok',
+    result: {
+      name: 'DJ',
+      age: 25
+    }
+  });
 })
 
 app.use(router);
