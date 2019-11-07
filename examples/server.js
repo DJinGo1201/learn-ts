@@ -29,6 +29,17 @@ router.post('/test/post', function (req, res) {
   res.json(req.body);
 })
 
+router.get('/error/get', function (req, res) {
+  res.status(500);
+  res.end();
+})
+
+router.get('/error/timeout', function (req, res) {
+  setTimeout(() => {
+    res.json(req.query);
+  }, 3000);
+})
+
 app.use(router);
 
 const port = process.env.PORT || 8080;
