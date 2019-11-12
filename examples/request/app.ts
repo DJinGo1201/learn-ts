@@ -1,5 +1,5 @@
 import axios from '../../src/index';
-
+import qs from 'qs';
 // interface ResponseData<T = any> {
 //   code: number
 //   result: T
@@ -24,35 +24,23 @@ import axios from '../../src/index';
 //   }
 // }
 
-axios.interceptors.request.use(config => {
-  config.data.data += '1';
-  return config;
-});
-
-const requestInterceptor = axios.interceptors.request.use(config => {
-  config.data.data += '2';
-  return config;
+axios({
+  url: '/test/post',
+  method: 'post',
+  data: {
+    a: 1
+  },
+  headers: {
+    test: '12',
+    'Content-Type': 'application/json; charset=utf-8'
+  },
+  transformRequest: [function (data) {
+    return JSON.stringify(data);
+  }],
+  transformResponse: [function (data) {
+    data.b = 3;
+    return data;
+  }]
+}).then((res) => {
+  console.log(res);
 })
-
-axios.interceptors.request.use(config => {
-  config.data.data += '3';
-  return config;
-});
-
-axios.interceptors.request.eject(requestInterceptor);
-
-axios.interceptors.response.use(res => {
-  res.data.data += '4';
-  return res;
-})
-
-const responseInterceptor = axios.interceptors.response.use(res => {
-  res.data.data += '5';
-  return res;
-});
-
-axios.interceptors.response.eject(responseInterceptor);
-
-axios.post('/test/post', { data: '' }).then((res) => {
-  console.log(res.data);
-});
